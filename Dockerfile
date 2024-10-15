@@ -1,4 +1,4 @@
-FROM alpine:2.6
+FROM alpine:3.18
 MAINTAINER Dark <big.dark@gmail.com>
 
 ENV MYSQL_VER="4.0.30" WORK_DIR="/usr/local/src"
@@ -17,14 +17,12 @@ RUN set -x ; \
     mkdir -p /var/log/mysql/ &&\
     chown mysql:mysql -R /var/db/mysql/ &&\
     chown mysql:mysql -R /var/log/mysql &&\
-    # chown -R root  . &&\
-    # # Timezone Setting
     cp -p /usr/share/zoneinfo/America/Sao_Paulo /etc/localtime
 
 VOLUME /var/db/mysql/
 
 COPY docker-entrypoint.sh /usr/local/bin/
-RUN ln -s usr/local/bin/docker-entrypoint.sh / # backwards compat
+RUN ln -s /usr/local/bin/docker-entrypoint.sh / # backwards compat
 ENTRYPOINT ["docker-entrypoint.sh"]
 
 EXPOSE 3306
